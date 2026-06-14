@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.svg";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -16,9 +15,9 @@ function Navbar() {
   return (
     <header className="w-full bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100 fixed top-0 left-0 z-50">
       <nav className="relative max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center">
-        {/* LOGO */}
+        {/* LOGO (FIXED) */}
         <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="Logo" className="h-10 w-auto" />
+          <img src="/logo.svg" alt="Logo" className="h-10 w-auto" />
         </Link>
 
         {/* NAV LINKS */}
@@ -52,7 +51,7 @@ function Navbar() {
           </Link>
         </div>
 
-        {/* MOBILE MENU BUTTON */}
+        {/* MOBILE MENU */}
         <button
           className="md:hidden ml-auto text-3xl text-gray-700"
           onClick={() => setOpen(!open)}
