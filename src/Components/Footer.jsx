@@ -7,7 +7,7 @@ const Footer = () => {
         <div className="relative flex justify-center">
           {/* FIXED IMAGE PATH */}
           <img
-            src="/footer.jpg"
+            src="./footer.jpg"
             alt="Dream Home"
             className="w-full max-w-3xl h-80 object-cover rounded-3xl opacity-60"
           />
