@@ -20,6 +20,7 @@ import Faq from "./Components/Faq/Faq";
 
 import Pricing from "./Components/Pricing One/Pricing One";
 import PricingTwo from "./Components/Pricing Two/Pricing Two";
+import PricingThree from "./Components/Pricing Three/Pricing Three";
 
 import Career from "./Components/Career/Career";
 import Event from "./Components/Event/Event";
@@ -53,6 +54,7 @@ export default function App() {
 
         <Route path="/pricing-one" element={<Pricing />} />
         <Route path="/pricing-two" element={<PricingTwo />} />
+        <Route path="/pricing-three" element={<PricingThree />} />
 
         <Route path="/career" element={<Career />} />
         <Route path="/event" element={<Event />} />
