@@ -75,9 +75,6 @@ const programData = {
   ],
 };
 
-// =====================
-// Component
-// =====================
 export default function Programs() {
   const [hoveredCourse, setHoveredCourse] = useState(null);
   const closeTimer = useRef(null);
@@ -91,128 +88,116 @@ export default function Programs() {
 
   const handleLeave = () => {
     clearTimeout(closeTimer.current);
-
     closeTimer.current = setTimeout(() => {
       setHoveredCourse(null);
-    }, 180);
+    }, 150);
   };
 
   return (
-    <section className="py-24 px-4 bg-white relative">
-      <div className="max-w-7xl mx-auto">
-        {/* HEADER */}
-        <div className="mb-14">
-          <p className="text-blue-600 font-semibold uppercase mb-3">
+    <section className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        {/* ================= HEADER (TOP LEFT) ================= */}
+        <div className="text-left mb-12">
+          <p className="text-blue-600 font-semibold uppercase tracking-wide">
             {header.tag}
           </p>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mt-2">
             {header.title}
           </h2>
         </div>
 
-        {/* CARDS */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {programs.map((course, index) => (
+        {/* ================= GRID ================= */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {programs.map((course, i) => (
             <motion.div
-              key={index}
+              key={i}
               onMouseEnter={() => handleEnter(course)}
               onMouseLeave={handleLeave}
               whileHover={{ y: -6, scale: 1.02 }}
-              transition={{ duration: 0.2 }}
-              className="group relative bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl"
+              transition={{ duration: 0.25 }}
+              className="relative bg-white rounded-2xl shadow-md overflow-visible"
             >
               {/* IMAGE */}
-              <div className="relative h-56 overflow-hidden">
+              <div className="relative overflow-hidden rounded-2xl">
                 <img
                   src={course.image}
-                  className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+                  className="w-full h-52 object-cover transition duration-500 hover:scale-110"
                   alt={course.title}
                 />
 
-                <div className="absolute top-4 right-4 w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold shadow-lg">
+                <div className="absolute top-3 right-3 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
                   {course.price}
                 </div>
               </div>
 
               {/* CONTENT */}
-              <div className="p-6">
-                <span className="text-blue-600 text-sm font-semibold">
+              <div className="p-4">
+                <p className="text-xs font-semibold uppercase text-blue-600">
                   {course.category}
-                </span>
+                </p>
 
-                <h3 className="text-lg font-bold text-gray-900 mt-2 mb-3">
+                <h3 className="mt-1 text-sm font-bold text-gray-900">
                   {course.title}
                 </h3>
 
-                <div className="flex items-center gap-2">
+                <div className="mt-2 flex items-center gap-2 text-sm text-gray-600">
                   <FaStar className="text-yellow-400" />
-                  <span className="font-semibold">{course.rating}</span>
-                  <span className="text-gray-500">({course.reviews})</span>
+                  {course.rating} ({course.reviews})
                 </div>
               </div>
+
+              {/* ================= PREMIUM PREVIEW (TOP RIGHT) ================= */}
+              <AnimatePresence>
+                {hoveredCourse === course && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9, y: -10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-2 top-2 z-50 w-[280px] rounded-xl bg-white p-4 shadow-2xl border"
+                  >
+                    <h3 className="text-sm font-bold text-gray-900">
+                      {course.title}
+                    </h3>
+
+                    <div className="mt-1 flex gap-3 text-xs text-gray-600">
+                      <span>{course.lessons}</span>
+                      <span>{course.enrolled}</span>
+                    </div>
+
+                    <p className="mt-2 text-xs text-gray-500">
+                      {course.description}
+                    </p>
+
+                    {/* FEATURE POINTS */}
+                    <div className="mt-2 space-y-1 text-xs text-gray-600">
+                      <p>• Modern learning system</p>
+                      <p>• Real-world projects</p>
+                      <p>• Industry-ready skills</p>
+                    </div>
+
+                    {/* BUTTONS */}
+                    <div className="mt-3 flex gap-2">
+                      {course.buttons.includes("details") && (
+                        <button className="flex-1 bg-gray-900 text-white py-1 rounded-lg text-xs">
+                          Course Details
+                        </button>
+                      )}
+
+                      {course.buttons.includes("enroll") && (
+                        <button className="flex-1 bg-blue-600 text-white py-1 rounded-lg text-xs">
+                          Enroll
+                        </button>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           ))}
         </div>
       </div>
-
-      {/* MODAL */}
-      <AnimatePresence>
-        {hoveredCourse && (
-          <motion.div
-            className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: 0.2 } }}
-            exit={{ opacity: 0, transition: { duration: 0.2 } }}
-            onMouseEnter={() => clearTimeout(closeTimer.current)}
-            onMouseLeave={handleLeave}
-          >
-            <motion.div
-              className="bg-white rounded-2xl max-w-xl w-full p-6"
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            >
-              <img
-                src={hoveredCourse.image}
-                className="w-full h-52 object-cover rounded-xl mb-4"
-                alt="course"
-              />
-
-              <span className="text-blue-600 text-sm font-semibold">
-                {hoveredCourse.category}
-              </span>
-
-              <h2 className="text-2xl font-bold mt-2 mb-3">
-                {hoveredCourse.title}
-              </h2>
-
-              <p className="text-gray-600 text-sm mb-4">
-                {hoveredCourse.description}
-              </p>
-
-              <div className="flex justify-between text-sm text-gray-700 mb-6">
-                <span>⭐ {hoveredCourse.rating}</span>
-                <span>👥 {hoveredCourse.reviews} reviews</span>
-              </div>
-
-              <div className="flex gap-3">
-                {hoveredCourse.buttons.includes("details") && (
-                  <button className="flex-1 bg-gray-900 text-white py-2 rounded-full">
-                    Course Details
-                  </button>
-                )}
-
-                {hoveredCourse.buttons.includes("enroll") && (
-                  <button className="flex-1 bg-blue-600 text-white py-2 rounded-full">
-                    Enroll
-                  </button>
-                )}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }
