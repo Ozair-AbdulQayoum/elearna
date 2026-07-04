@@ -7,7 +7,8 @@ import Learing from "./Learing";
 import Form from "./Form";
 import Offer from "./Offer";
 import Test from "../About One/Test";
-
+import Why from "./Why";
+import Footer from "../Pricing One/Footer";
 export default function Home() {
   return (
     <div>
@@ -19,6 +20,8 @@ export default function Home() {
       <Form />
       <Offer />
       <Test />
+      <Why />
+      <Footer />
     </div>
   );
 }

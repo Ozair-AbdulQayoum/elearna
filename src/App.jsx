@@ -14,6 +14,7 @@ import AboutTwo from "./Components/About Two/About Two";
 
 import Course from "./Components/Course One/Course One";
 import CourseTwo from "./Components/Course Two/Course Two";
+import CourseThree from "./Components/Course Three/Course Three";
 
 import Faq from "./Components/Faq/Faq";
 
@@ -46,6 +47,7 @@ export default function App() {
 
         <Route path="/course-one" element={<Course />} />
         <Route path="/course-two" element={<CourseTwo />} />
+        <Route path="/course-three" element={<CourseThree />} />
 
         <Route path="/faq" element={<Faq />} />
 
