@@ -28,6 +28,7 @@ import Team from "./Components/Team/Team";
 
 import Blog from "./Components/Blog One/Blog One";
 import BlogTwo from "./Components/Blog Two/Blog Two";
+import BlogThree from "./Components/Blog Three/Blog Three";
 
 import Contact from "./Components/Contact One/Contact One";
 import ContactTwo from "./Components/Contact Two/Contact Two";
@@ -62,6 +63,7 @@ export default function App() {
 
         <Route path="/blog-one" element={<Blog />} />
         <Route path="/blog-two" element={<BlogTwo />} />
+        <Route path="/blog-three" element={<BlogThree />} />
 
         <Route path="/contact-one" element={<Contact />} />
         <Route path="/contact-two" element={<ContactTwo />} />
