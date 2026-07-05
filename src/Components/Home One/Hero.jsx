@@ -1,136 +1,137 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { FaArrowRight } from "react-icons/fa";
 
-// =====================
 // Images
-// =====================
 import bgImg from "../../assets/1- Home One imgs/FooterOneBackground3.avif";
 import girlImg from "../../assets/1- Home One imgs/BannerGirl.webp";
 import img1 from "../../assets/1- Home One imgs/Achievements.webp";
 import img2 from "../../assets/1- Home One imgs/TrustedByImage.avif";
 
-// =====================
-// Data
-// =====================
-const heroData = {
-  bgImg,
-  girlImg,
-  img1,
-  img2,
-  titleSmall: "Online learning",
-  titleMain: "More than 25000+ courses",
-  description:
-    "Learn modern skills with structured courses designed to improve your career and real-world knowledge.",
-  buttonText: "Get Started",
+const fadeUp = {
+  hidden: { opacity: 0, y: 45 },
+  show: { opacity: 1, y: 0 },
 };
 
-// =====================
-// Component
-// =====================
 export default function Hero() {
-  const {
-    bgImg,
-    girlImg,
-    img1,
-    img2,
-    titleSmall,
-    titleMain,
-    description,
-    buttonText,
-  } = heroData;
+  const heroRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0px", "70px"]);
 
   return (
-    <section className="relative w-full h-[90vh] overflow-hidden">
-      {/* Background */}
-      <img
+    <section ref={heroRef} className="relative h-[90vh] w-full overflow-hidden">
+      {/* Background Image */}
+      <motion.img
         src={bgImg}
         alt="background"
-        className="absolute inset-0 w-full h-full object-cover"
+        style={{ y: bgY }}
+        initial={{ scale: 1.12 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 1.6, ease: "easeOut" }}
+        className="absolute inset-0 h-[115%] w-full object-cover"
       />
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-[#12292E]/85"></div>
+      {/* Low Opacity Color Overlay */}
+      <div className="absolute inset-0 bg-[#061316]/45"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-[#061316]/70 via-[#061316]/35 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-[#061316]/60 via-transparent to-transparent"></div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto h-full flex flex-col-reverse lg:flex-row items-center px-6">
-        {/* LEFT SIDE */}
-        <div className="w-full lg:w-1/2 flex justify-center items-center relative mt-10 lg:mt-0">
-          {/* Main Image */}
+      <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col-reverse items-center px-6 lg:flex-row">
+        {/* Left Image */}
+        <div className="relative mt-8 flex w-full items-center justify-center lg:mt-0 lg:w-1/2">
           <motion.img
             src={girlImg}
             alt="girl"
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, scale: 0.85, y: 70 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
             viewport={{ once: true }}
-            className="w-[240px] sm:w-[300px] md:w-[380px] lg:w-[420px] drop-shadow-2xl z-20"
+            className="z-20 w-[230px] drop-shadow-2xl sm:w-[300px] md:w-[380px] lg:w-[430px]"
           />
 
-          {/* Left floating image */}
           <motion.img
             src={img1}
-            alt="decor-1"
-            initial={{ x: -120, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            alt="achievement"
+            initial={{ x: -100, opacity: 0, rotate: -8 }}
+            whileInView={{ x: 0, opacity: 1, rotate: 0 }}
+            animate={{ y: [0, -14, 0] }}
+            transition={{
+              duration: 0.9,
+              delay: 0.25,
+              y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+            }}
             viewport={{ once: true }}
-            className="absolute left-10 sm:left-20 top-1/2 -translate-y-1/2 w-16 sm:w-24 md:w-28 rounded-xl shadow-xl z-30"
+            className="absolute left-4 top-1/2 z-30 w-20 -translate-y-1/2 rounded-2xl shadow-2xl sm:left-16 sm:w-28 md:w-32"
           />
 
-          {/* Right floating image */}
           <motion.img
             src={img2}
-            alt="decor-2"
-            initial={{ x: 120, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            alt="trusted"
+            initial={{ x: 100, opacity: 0, rotate: 8 }}
+            whileInView={{ x: 0, opacity: 1, rotate: 0 }}
+            animate={{ y: [0, 14, 0] }}
+            transition={{
+              duration: 0.9,
+              delay: 0.35,
+              y: { duration: 3.4, repeat: Infinity, ease: "easeInOut" },
+            }}
             viewport={{ once: true }}
-            className="absolute right-10 sm:right-20 bottom-10 w-16 sm:w-24 md:w-28 rounded-xl shadow-xl z-30"
+            className="absolute bottom-8 right-4 z-30 w-20 rounded-2xl shadow-2xl sm:right-16 sm:w-28 md:w-32"
           />
         </div>
 
-        {/* RIGHT SIDE */}
-        <div className="w-full lg:w-1/2 text-white text-center lg:text-left">
+        {/* Right Text */}
+        <motion.div
+          style={{ y: textY }}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          transition={{ staggerChildren: 0.16 }}
+          className="w-full text-center text-white lg:w-1/2 lg:text-left"
+        >
           <motion.h5
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            variants={fadeUp}
             transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-sm uppercase tracking-widest text-cyan-400 mb-3"
+            className="mb-4 text-sm font-semibold uppercase tracking-[4px] text-cyan-400"
           >
-            {titleSmall}
+            Online learning
           </motion.h5>
 
           <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight"
+            variants={fadeUp}
+            transition={{ duration: 0.75 }}
+            className="text-4xl font-bold leading-tight md:text-5xl lg:text-7xl"
           >
-            {titleMain}
+            More than <span className="text-[#FFB606]">25000+</span> courses
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="mt-5 text-gray-200 max-w-md mx-auto lg:mx-0"
+            variants={fadeUp}
+            transition={{ duration: 0.75 }}
+            className="mx-auto mt-6 max-w-md text-base leading-8 text-gray-200 lg:mx-0"
           >
-            {description}
+            Learn modern skills with structured courses designed to improve your
+            career and real-world knowledge.
           </motion.p>
 
           <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="mt-6 bg-cyan-500 hover:bg-cyan-600 px-6 py-3 rounded-full transition hover:scale-105"
+            variants={fadeUp}
+            whileHover={{ scale: 1.06, y: -3 }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ duration: 0.4 }}
+            className="mt-8 inline-flex items-center gap-3 rounded-full bg-cyan-500 px-7 py-3 font-semibold text-white shadow-lg shadow-cyan-500/30 transition hover:bg-cyan-600"
           >
-            {buttonText}
+            Get Started
+            <FaArrowRight className="text-sm" />
           </motion.button>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

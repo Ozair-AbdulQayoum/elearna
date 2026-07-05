@@ -32,6 +32,7 @@ import BlogThree from "./Components/Blog Three/Blog Three";
 
 import Contact from "./Components/Contact One/Contact One";
 import ContactTwo from "./Components/Contact Two/Contact Two";
+import ContactThree from "./Components/Contact Three/Contact Three";
 
 export default function App() {
   return (
@@ -67,6 +68,7 @@ export default function App() {
 
         <Route path="/contact-one" element={<Contact />} />
         <Route path="/contact-two" element={<ContactTwo />} />
+        <Route path="/contact-three" element={<ContactThree />} />
       </Routes>
     </BrowserRouter>
   );
