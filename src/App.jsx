@@ -34,6 +34,9 @@ import Contact from "./Components/Contact One/Contact One";
 import ContactTwo from "./Components/Contact Two/Contact Two";
 import ContactThree from "./Components/Contact Three/Contact Three";
 
+import Login from "./Components/Login";
+import Register from "./Components/Register";
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -69,6 +72,9 @@ export default function App() {
         <Route path="/contact-one" element={<Contact />} />
         <Route path="/contact-two" element={<ContactTwo />} />
         <Route path="/contact-three" element={<ContactThree />} />
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   );
