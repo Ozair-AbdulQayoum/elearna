@@ -9,8 +9,14 @@ import img1 from "../../assets/1- Home One imgs/Achievements.webp";
 import img2 from "../../assets/1- Home One imgs/TrustedByImage.avif";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 45 },
-  show: { opacity: 1, y: 0 },
+  hidden: {
+    opacity: 0,
+    y: 45,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+  },
 };
 
 export default function Hero() {
@@ -25,11 +31,14 @@ export default function Hero() {
   const textY = useTransform(scrollYProgress, [0, 1], ["0px", "70px"]);
 
   return (
-    <section ref={heroRef} className="relative h-[90vh] w-full overflow-hidden">
+    <section
+      ref={heroRef}
+      className="relative h-[90vh] w-full overflow-hidden bg-black"
+    >
       {/* Background Image */}
       <motion.img
         src={bgImg}
-        alt="background"
+        alt="Hero background"
         style={{ y: bgY }}
         initial={{ scale: 1.12 }}
         animate={{ scale: 1 }}
@@ -37,10 +46,10 @@ export default function Hero() {
         className="absolute inset-0 h-[115%] w-full object-cover"
       />
 
-      {/* Low Opacity Color Overlay */}
-      <div className="absolute inset-0 bg-[#061316]/45"></div>
-      <div className="absolute inset-0 bg-gradient-to-r from-[#061316]/70 via-[#061316]/35 to-transparent"></div>
-      <div className="absolute inset-0 bg-gradient-to-t from-[#061316]/60 via-transparent to-transparent"></div>
+      {/* Soft Dark Overlay */}
+      <div className="absolute inset-0 bg-black/30"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/25 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent"></div>
 
       {/* Content */}
       <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col-reverse items-center px-6 lg:flex-row">
@@ -48,7 +57,7 @@ export default function Hero() {
         <div className="relative mt-8 flex w-full items-center justify-center lg:mt-0 lg:w-1/2">
           <motion.img
             src={girlImg}
-            alt="girl"
+            alt="Student learning online"
             initial={{ opacity: 0, scale: 0.85, y: 70 }}
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.9, ease: "easeOut" }}
@@ -58,14 +67,18 @@ export default function Hero() {
 
           <motion.img
             src={img1}
-            alt="achievement"
+            alt="Achievement"
             initial={{ x: -100, opacity: 0, rotate: -8 }}
             whileInView={{ x: 0, opacity: 1, rotate: 0 }}
             animate={{ y: [0, -14, 0] }}
             transition={{
               duration: 0.9,
               delay: 0.25,
-              y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+              y: {
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut",
+              },
             }}
             viewport={{ once: true }}
             className="absolute left-4 top-1/2 z-30 w-20 -translate-y-1/2 rounded-2xl shadow-2xl sm:left-16 sm:w-28 md:w-32"
@@ -73,14 +86,18 @@ export default function Hero() {
 
           <motion.img
             src={img2}
-            alt="trusted"
+            alt="Trusted by students"
             initial={{ x: 100, opacity: 0, rotate: 8 }}
             whileInView={{ x: 0, opacity: 1, rotate: 0 }}
             animate={{ y: [0, 14, 0] }}
             transition={{
               duration: 0.9,
               delay: 0.35,
-              y: { duration: 3.4, repeat: Infinity, ease: "easeInOut" },
+              y: {
+                duration: 3.4,
+                repeat: Infinity,
+                ease: "easeInOut",
+              },
             }}
             viewport={{ once: true }}
             className="absolute bottom-8 right-4 z-30 w-20 rounded-2xl shadow-2xl sm:right-16 sm:w-28 md:w-32"
@@ -101,7 +118,7 @@ export default function Hero() {
             transition={{ duration: 0.6 }}
             className="mb-4 text-sm font-semibold uppercase tracking-[4px] text-cyan-400"
           >
-            Online learning
+            Online Learning
           </motion.h5>
 
           <motion.h1

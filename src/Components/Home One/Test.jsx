@@ -2,16 +2,12 @@ import React, { useState } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-// =====================
 // Images
-// =====================
 import Person1 from "../../assets/1- Home One imgs/TestimonialAuthorImage.avif";
 import Person2 from "../../assets/1- Home One imgs/TestimonialAuthorImage-2.avif";
 import bg from "../../assets/1- Home One imgs/TestimonialBackground.avif";
 
-// =====================
 // Data
-// =====================
 const testimonialData = {
   background: bg,
 
@@ -49,9 +45,7 @@ const testimonialData = {
   ],
 };
 
-// =====================
 // Animated Number
-// =====================
 const AnimatedNumber = ({ value, suffix, trigger }) => {
   const motionValue = useMotionValue(0);
   const rounded = useTransform(motionValue, (v) => Math.floor(v));
@@ -75,9 +69,6 @@ const AnimatedNumber = ({ value, suffix, trigger }) => {
   );
 };
 
-// =====================
-// Component
-// =====================
 export default function Test() {
   const [current, setCurrent] = useState(0);
   const [startCount, setStartCount] = useState(false);
@@ -96,35 +87,37 @@ export default function Test() {
 
   return (
     <section
-      className="py-24 px-4 bg-cover bg-center relative"
+      className="relative overflow-hidden bg-cover bg-center px-4 py-24"
       style={{ backgroundImage: `url(${background})` }}
     >
-      {/* OVERLAY */}
-      <div className="absolute inset-0 bg-black/40"></div>
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-black/50"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/45 to-black/20"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent"></div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* HEADER + STATS */}
+      <div className="relative z-10 mx-auto max-w-7xl">
+        {/* Header + Stats */}
         <motion.div
-          className="flex flex-col lg:flex-row justify-between items-center text-center lg:text-left gap-10 mb-16 text-white"
+          className="mb-16 flex flex-col items-center justify-between gap-10 text-center text-white lg:flex-row lg:text-left"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           onViewportEnter={() => setStartCount(true)}
           transition={{ duration: 0.7 }}
         >
-          {/* TEXT */}
+          {/* Text */}
           <div>
-            <p className="text-blue-300 font-semibold uppercase mb-3">
+            <p className="mb-3 font-semibold uppercase tracking-wider text-blue-300">
               {header.tag}
             </p>
 
-            <h2 className="text-4xl md:text-5xl font-bold text-white">
+            <h2 className="text-4xl font-bold text-white md:text-5xl">
               {header.title}
             </h2>
           </div>
 
-          {/* STATS */}
-          <div className="flex flex-wrap lg:flex-nowrap gap-10 lg:gap-16 items-center text-white">
+          {/* Stats */}
+          <div className="flex flex-wrap items-center justify-center gap-10 text-white lg:flex-nowrap lg:gap-16">
             {stats.map((item, index) => (
               <div key={index} className="text-center">
                 <h3 className="text-4xl font-bold">
@@ -134,15 +127,16 @@ export default function Test() {
                     trigger={startCount}
                   />
                 </h3>
-                <p className="text-white/80 mt-2">{item.label}</p>
+
+                <p className="mt-2 text-white/80">{item.label}</p>
               </div>
             ))}
           </div>
         </motion.div>
 
-        {/* TESTIMONIAL SECTION */}
-        <div className="grid lg:grid-cols-2 gap-12 items-center text-white">
-          {/* IMAGE */}
+        {/* Testimonial Section */}
+        <div className="grid items-center gap-12 text-white lg:grid-cols-2">
+          {/* Image */}
           <motion.div
             key={testimonials[current].image}
             initial={{ opacity: 0, x: -40 }}
@@ -152,39 +146,39 @@ export default function Test() {
             <img
               src={testimonials[current].image}
               alt={testimonials[current].name}
-              className="rounded-3xl shadow-xl w-full max-w-md mx-auto"
+              className="mx-auto w-full max-w-md rounded-3xl shadow-xl"
             />
           </motion.div>
 
-          {/* CONTENT */}
+          {/* Content */}
           <motion.div
             key={current}
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <p className="text-white/90 text-lg mb-6">
+            <p className="mb-6 text-lg leading-8 text-white/90">
               {testimonials[current].text}
             </p>
 
             <h3 className="text-2xl font-bold">{testimonials[current].name}</h3>
 
-            <p className="text-blue-300 mt-2 mb-8">
+            <p className="mb-8 mt-2 text-blue-300">
               {testimonials[current].title}
             </p>
 
-            {/* BUTTONS */}
+            {/* Buttons */}
             <div className="flex gap-4">
               <button
                 onClick={prevSlide}
-                className="w-12 h-12 rounded-full border border-white flex items-center justify-center hover:bg-white hover:text-black transition"
+                className="flex h-12 w-12 items-center justify-center rounded-full border border-white text-white transition hover:bg-white hover:text-black"
               >
                 <FaArrowLeft />
               </button>
 
               <button
                 onClick={nextSlide}
-                className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-200 transition"
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-black transition hover:bg-gray-200"
               >
                 <FaArrowRight />
               </button>
