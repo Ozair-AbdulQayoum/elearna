@@ -1,234 +1,320 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaArrowRight } from "react-icons/fa";
+import { AnimatePresence, motion } from "framer-motion";
 
 import img1 from "../../assets/11- Home Two Imgs/PotentialImage-1.webp";
 import img2 from "../../assets/11- Home Two Imgs/PotentialImage-2.webp";
 import img3 from "../../assets/11- Home Two Imgs/PotentialImage-3.webp";
 import img4 from "../../assets/11- Home Two Imgs/PotentialImage-4.webp";
 
-const cards = [
+const data = [
   {
-    id: "01",
+    id: "1",
     title: "Flexibility and convenience",
-    desc: "Learn anytime, anywhere with full control over your schedule and progress.",
-    image: img1,
+    desc: "Lorem ipsum dolor sit amet consectetur. Lectus faucibus eu lectus malesuada morbi in quam donec a pellentesque risus.",
+    img: img1,
   },
   {
-    id: "02",
+    id: "2",
     title: "Course accessibility",
-    desc: "Access learning materials from desktop, tablet, or mobile anytime.",
-    image: img2,
+    desc: "Lorem ipsum dolor sit amet consectetur. Lectus faucibus eu lectus malesuada morbi in quam donec a pellentesque risus.",
+    img: img2,
   },
   {
-    id: "03",
-    title: "Expert instructors",
-    desc: "Learn directly from experienced professionals and industry experts.",
-    image: img3,
+    id: "3",
+    title: "Cost-effectiveness",
+    desc: "Lorem ipsum dolor sit amet consectetur. Lectus faucibus eu lectus malesuada morbi in quam donec a pellentesque risus.",
+    img: img3,
   },
   {
-    id: "04",
-    title: "Career opportunities",
-    desc: "Build practical skills that help you grow professionally and unlock new opportunities.",
-    image: img4,
+    id: "4",
+    title: "Personalized learning",
+    desc: "Lorem ipsum dolor sit amet consectetur. Lectus faucibus eu lectus malesuada morbi in quam donec a pellentesque risus.",
+    img: img4,
   },
 ];
 
-const fadeUp = {
-  hidden: {
-    opacity: 0,
-    y: 45,
+const cardVariants = {
+  initial: {
+    backgroundColor: "rgba(0, 0, 0, 0)",
   },
-  show: {
-    opacity: 1,
-    y: 0,
+  hover: {
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    transition: {
+      duration: 0.4,
+      ease: "easeOut",
+    },
   },
 };
 
-export default function Potential() {
-  const [active, setActive] = useState(0);
+const numberVariants = {
+  initial: {
+    opacity: 0.85,
+    scale: 1,
+  },
+  hover: {
+    opacity: 1,
+    scale: 1.06,
+    transition: {
+      duration: 0.45,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+export default function LearningSection() {
+  const [activeImg, setActiveImg] = useState(data[0].img);
 
   return (
-    <section className="relative w-full overflow-hidden bg-white px-4 py-24">
-      {/* Soft Background Effects */}
-      <div className="absolute left-0 top-20 h-64 w-64 rounded-full bg-blue-100/70 blur-3xl"></div>
-      <div className="absolute bottom-20 right-0 h-72 w-72 rounded-full bg-yellow-100/70 blur-3xl"></div>
+    <section className="w-full overflow-hidden bg-[#eef3f5]">
+      <div
+        className="
+          relative
+          min-h-[760px]
+          overflow-hidden
+          sm:min-h-[820px]
+          md:min-h-[580px]
+          lg:min-h-[650px]
+          xl:min-h-[720px]
+        "
+      >
+        {/* Animated background */}
+        <AnimatePresence mode="sync">
+          <motion.div
+            key={activeImg}
+            initial={{
+              opacity: 0,
+              scale: 1.06,
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+            }}
+            exit={{
+              opacity: 0,
+            }}
+            transition={{
+              opacity: {
+                duration: 0.55,
+                ease: "easeInOut",
+              },
+              scale: {
+                duration: 1.1,
+                ease: [0.22, 1, 0.36, 1],
+              },
+            }}
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: `url(${activeImg})`,
+            }}
+          />
+        </AnimatePresence>
 
-      <div className="relative z-10 mx-auto max-w-7xl">
-        {/* Heading */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="mx-auto mb-14 max-w-3xl text-center"
+        {/* Main background overlay */}
+        <div
+          className="
+            pointer-events-none
+            absolute
+            inset-0
+            bg-gradient-to-b
+            from-black/25
+            via-black/35
+            to-black/90
+            md:from-black/20
+            md:via-black/25
+            md:to-black/85
+          "
+        />
+
+        <div
+          className="
+            absolute
+            inset-0
+            grid
+            grid-cols-1
+            grid-rows-4
+            md:grid-cols-4
+            md:grid-rows-1
+          "
         >
-          <span className="text-xs font-semibold uppercase tracking-[5px] text-[#4D6B7E]">
-            Unlocking Potential
-          </span>
-
-          <h2 className="mt-5 text-3xl font-bold leading-tight text-gray-950 md:text-5xl">
-            Discover the boundless advantages and transformative power of
-            eLearning
-          </h2>
-
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-gray-500">
-            Explore flexible learning solutions designed to help you gain
-            real-world skills, learn from experts, and grow your career.
-          </p>
-        </motion.div>
-
-        {/* Desktop Cards */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="hidden h-[460px] overflow-hidden rounded-[32px] shadow-2xl shadow-gray-200/80 lg:flex"
-        >
-          {cards.map((card, index) => {
-            const isActive = active === index;
-
-            return (
-              <motion.div
-                key={card.id}
-                onMouseEnter={() => setActive(index)}
-                className="group relative min-w-0 cursor-pointer overflow-hidden"
-                animate={{
-                  flexGrow: isActive ? 4.2 : 1,
-                }}
-                transition={{
-                  duration: 0.9,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-              >
-                {/* Image */}
-                <motion.img
-                  src={card.image}
-                  alt={card.title}
-                  className="absolute inset-0 h-full w-full object-cover"
-                  animate={{
-                    scale: isActive ? 1 : 1.12,
-                  }}
-                  transition={{
-                    duration: 1.2,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                />
-
-                {/* Overlay */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-black/10"
-                  animate={{
-                    opacity: isActive ? 1 : 0.9,
-                  }}
-                  transition={{ duration: 0.5 }}
-                />
-
-                {/* Number */}
-                <div className="absolute left-6 top-6 z-20">
-                  <motion.span
-                    animate={{
-                      scale: isActive ? 1 : 0.92,
-                      opacity: isActive ? 1 : 0.7,
-                    }}
-                    transition={{ duration: 0.5 }}
-                    className="text-5xl font-bold text-white/90"
-                  >
-                    {card.id}
-                  </motion.span>
-                </div>
-
-                {/* Content */}
-                <div className="absolute bottom-0 left-0 z-20 w-full p-7 text-white">
-                  <motion.h3
-                    animate={{
-                      y: isActive ? 0 : 10,
-                    }}
-                    transition={{
-                      duration: 0.6,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                    className="max-w-sm text-2xl font-bold leading-tight"
-                  >
-                    {card.title}
-                  </motion.h3>
-
-                  <AnimatePresence>
-                    {isActive && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 25 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 25 }}
-                        transition={{
-                          duration: 0.55,
-                          ease: [0.22, 1, 0.36, 1],
-                        }}
-                      >
-                        <p className="mt-4 max-w-md text-sm leading-7 text-white/80">
-                          {card.desc}
-                        </p>
-
-                        <button className="mt-6 inline-flex items-center gap-3 rounded-full bg-white px-6 py-3 text-sm font-semibold text-gray-950 transition duration-300 hover:bg-[#FFB606] hover:shadow-lg">
-                          Learn More
-                          <FaArrowRight className="text-xs" />
-                        </button>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-
-        {/* Mobile Cards */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:hidden"
-        >
-          {cards.map((card, index) => (
+          {data.map((item) => (
             <motion.div
-              key={card.id}
-              whileHover={{ y: -8 }}
-              transition={{ duration: 0.35 }}
-              className="group relative h-[330px] overflow-hidden rounded-3xl shadow-xl shadow-gray-200/80"
+              key={item.id}
+              initial="initial"
+              animate="initial"
+              whileHover="hover"
+              variants={cardVariants}
+              onHoverStart={() => setActiveImg(item.img)}
+              onFocus={() => setActiveImg(item.img)}
+              onClick={() => setActiveImg(item.img)}
+              tabIndex={0}
+              role="button"
+              className="
+                group
+                relative
+                flex
+                cursor-pointer
+                flex-col
+                justify-end
+                overflow-hidden
+                border-b
+                border-white/20
+                px-5
+                py-6
+                outline-none
+                transition-colors
+                duration-500
+                focus-visible:bg-black/25
+                sm:px-7
+                sm:py-7
+                md:border-b-0
+                md:border-r
+                md:px-5
+                md:py-7
+                lg:px-7
+                lg:py-9
+                xl:px-9
+                xl:py-10
+                [&:last-child]:border-b-0
+                md:[&:last-child]:border-r-0
+              "
             >
-              <img
-                src={card.image}
-                alt={card.title}
-                className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110"
+              {/* Card gradient overlay */}
+              <div
+                className="
+                  pointer-events-none
+                  absolute
+                  inset-0
+                  bg-gradient-to-r
+                  from-black/35
+                  via-black/10
+                  to-transparent
+                  opacity-100
+                  transition-opacity
+                  duration-500
+                  md:bg-gradient-to-t
+                  md:from-black/65
+                  md:via-black/15
+                  md:to-transparent
+                  md:opacity-0
+                  md:group-hover:opacity-100
+                  md:group-focus-visible:opacity-100
+                "
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent"></div>
+              {/* Content */}
+              <div
+                className="
+                  relative
+                  z-10
+                  flex
+                  max-w-xl
+                  items-end
+                  gap-5
+                  transition-transform
+                  duration-700
+                  ease-[cubic-bezier(0.22,1,0.36,1)]
+                  sm:gap-7
+                  md:block
+                  md:max-w-none
+                  md:translate-y-[108px]
+                  md:group-hover:translate-y-0
+                  md:group-focus-visible:translate-y-0
+                  lg:translate-y-[120px]
+                  xl:translate-y-[128px]
+                "
+              >
+                <motion.span
+                  variants={numberVariants}
+                  className="
+                    block
+                    shrink-0
+                    text-3xl
+                    font-bold
+                    leading-none
+                    text-white
+                    sm:text-4xl
+                    md:text-4xl
+                    lg:text-5xl
+                    xl:text-6xl
+                  "
+                >
+                  {item.id.padStart(2, "0")}
+                </motion.span>
 
-              <div className="absolute bottom-0 left-0 z-10 w-full p-6 text-white">
-                <span className="text-4xl font-bold text-white/90">
-                  {card.id}
-                </span>
+                <div className="min-w-0 flex-1 md:mt-5">
+                  <h2
+                    className="
+                      max-w-xs
+                      text-lg
+                      font-semibold
+                      leading-snug
+                      text-white
+                      sm:text-xl
+                      md:text-lg
+                      lg:text-xl
+                      xl:text-2xl
+                    "
+                  >
+                    {item.title}
+                  </h2>
 
-                <h3 className="mt-4 text-xl font-bold leading-tight">
-                  {card.title}
-                </h3>
-
-                <p className="mt-3 text-sm leading-6 text-white/80">
-                  {card.desc}
-                </p>
-
-                <button className="mt-5 inline-flex items-center gap-3 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-gray-950 transition duration-300 hover:bg-[#FFB606]">
-                  Learn More
-                  <FaArrowRight className="text-xs" />
-                </button>
+                  <p
+                    className="
+                      mt-2
+                      max-w-lg
+                      text-xs
+                      leading-5
+                      text-white/75
+                      sm:mt-3
+                      sm:text-sm
+                      sm:leading-6
+                      md:mt-4
+                      md:max-h-0
+                      md:translate-y-4
+                      md:overflow-hidden
+                      md:text-sm
+                      md:leading-6
+                      md:opacity-0
+                      md:transition-all
+                      md:duration-500
+                      md:ease-out
+                      md:group-hover:max-h-40
+                      md:group-hover:translate-y-0
+                      md:group-hover:opacity-100
+                      md:group-focus-visible:max-h-40
+                      md:group-focus-visible:translate-y-0
+                      md:group-focus-visible:opacity-100
+                      lg:text-[15px]
+                      lg:leading-7
+                      xl:text-base
+                      xl:leading-8
+                    "
+                  >
+                    {item.desc}
+                  </p>
+                </div>
               </div>
+
+              {/* Bottom active indicator */}
+              <div
+                className="
+                  absolute
+                  bottom-0
+                  left-0
+                  h-[3px]
+                  w-0
+                  bg-white
+                  transition-all
+                  duration-500
+                  ease-out
+                  group-hover:w-full
+                  group-focus-visible:w-full
+                  md:h-1
+                "
+              />
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
