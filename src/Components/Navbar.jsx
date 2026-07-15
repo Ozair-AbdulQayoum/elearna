@@ -56,6 +56,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [openMobileMenu, setOpenMobileMenu] = useState(null);
+  const [cartOpen, setCartOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,12 +75,30 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = mobileMenu ? "hidden" : "";
+    const pageLocked = mobileMenu || cartOpen;
+
+    document.body.style.overflow = pageLocked ? "hidden" : "";
 
     return () => {
       document.body.style.overflow = "";
     };
-  }, [mobileMenu]);
+  }, [mobileMenu, cartOpen]);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setCartOpen(false);
+        setMobileMenu(false);
+        setOpenMobileMenu(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const toggleMobileDropdown = (menuName) => {
     setOpenMobileMenu((currentMenu) =>
@@ -90,6 +109,7 @@ export default function Navbar() {
   const toggleMobileMenu = () => {
     setMobileMenu((currentValue) => !currentValue);
     setOpenMobileMenu(null);
+    setCartOpen(false);
   };
 
   const closeMobileMenu = () => {
@@ -97,245 +117,120 @@ export default function Navbar() {
     setOpenMobileMenu(null);
   };
 
+  const openCart = () => {
+    setCartOpen(true);
+    setMobileMenu(false);
+    setOpenMobileMenu(null);
+  };
+
+  const closeCart = () => {
+    setCartOpen(false);
+  };
+
   const showNavbarBackground = isScrolled || mobileMenu;
 
   return (
-    <nav
-      className={`
-        fixed
-        inset-x-0
-        top-0
-        z-[9999]
-        w-full
-        transition-all
-        duration-500
-        ${
-          showNavbarBackground
-            ? "bg-[#0F252A]/95 shadow-[0_12px_40px_rgba(0,0,0,0.18)] backdrop-blur-xl"
-            : "bg-transparent shadow-none"
-        }
-      `}
-    >
-      <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-10 xl:px-12">
-        <div
-          className={`
-            flex
-            items-center
-            justify-between
-            transition-all
-            duration-500
-            ${isScrolled ? "h-[70px]" : "h-[84px]"}
-          `}
-        >
-          {/* Logo */}
-          <Link
-            to="/"
-            onClick={closeMobileMenu}
-            aria-label="Go to homepage"
-            className="relative z-20 flex shrink-0 items-center"
-          >
-            <img
-              src={logo}
-              alt="Elearna"
-              className={`
-                w-auto
-                object-contain
-                transition-all
-                duration-500
-                ${isScrolled ? "h-8" : "h-9"}
-              `}
-            />
-          </Link>
-
-          {/* Desktop menu */}
-          <div className="hidden items-center gap-6 lg:flex xl:gap-8">
-            <Dropdown title="Home" items={homeLinks} />
-
-            <MegaMenu />
-
-            <Dropdown title="Pages" items={pageLinks} />
-
-            <Dropdown title="Blog" items={blogLinks} />
-
-            <Dropdown title="Contact" items={contactLinks} />
-          </div>
-
-          {/* Desktop actions */}
-          <div className="hidden items-center gap-5 lg:flex">
-            <Link
-              to="/cart"
-              aria-label="Open shopping cart"
-              className="
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-                rounded-full
-                border
-                border-white/20
-                bg-white/5
-                text-base
-                text-white
-                backdrop-blur-sm
-                transition-all
-                duration-300
-                hover:-translate-y-0.5
-                hover:border-cyan-300/60
-                hover:bg-white/10
-                hover:text-cyan-300
-              "
-            >
-              <FaShoppingCart />
-            </Link>
-
-            <Link
-              to="/login"
-              className="
-                text-sm
-                font-medium
-                text-white
-                transition-colors
-                duration-300
-                hover:text-cyan-300
-              "
-            >
-              Login
-            </Link>
-
-            <Link
-              to="/register"
-              className="
-                inline-flex
-                items-center
-                justify-center
-                rounded-full
-                bg-cyan-500
-                px-6
-                py-2.5
-                text-sm
-                font-semibold
-                text-white
-                shadow-[0_10px_30px_rgba(6,182,212,0.22)]
-                transition-all
-                duration-300
-                hover:-translate-y-0.5
-                hover:bg-cyan-400
-                hover:shadow-[0_14px_38px_rgba(6,182,212,0.35)]
-              "
-            >
-              Register
-            </Link>
-          </div>
-
-          {/* Mobile button */}
-          <button
-            type="button"
-            onClick={toggleMobileMenu}
-            aria-label={mobileMenu ? "Close menu" : "Open menu"}
-            aria-expanded={mobileMenu}
-            className="
-              relative
-              z-20
+    <>
+      <nav
+        className={`
+          fixed
+          inset-x-0
+          top-0
+          z-[9999]
+          w-full
+          transition-all
+          duration-500
+          ${
+            showNavbarBackground
+              ? "bg-[#0F252A]/95 shadow-[0_12px_40px_rgba(0,0,0,0.18)] backdrop-blur-xl"
+              : "bg-transparent shadow-none"
+          }
+        `}
+      >
+        <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-10 xl:px-12">
+          <div
+            className={`
               flex
-              h-11
-              w-11
               items-center
-              justify-center
-              rounded-full
-              border
-              border-white/20
-              bg-white/10
-              text-xl
-              text-white
-              backdrop-blur-md
+              justify-between
               transition-all
-              duration-300
-              hover:border-white/35
-              hover:bg-white/20
-              lg:hidden
-            "
+              duration-500
+              ${isScrolled ? "h-[70px]" : "h-[84px]"}
+            `}
           >
-            {mobileMenu ? <FaTimes /> : <FaBars />}
-          </button>
-        </div>
+            {/* Logo */}
+            <Link
+              to="/"
+              onClick={closeMobileMenu}
+              aria-label="Go to homepage"
+              className="relative z-20 flex shrink-0 items-center"
+            >
+              <img
+                src={logo}
+                alt="Elearna"
+                className={`
+                  w-auto
+                  object-contain
+                  transition-all
+                  duration-500
+                  ${isScrolled ? "h-8" : "h-9"}
+                `}
+              />
+            </Link>
 
-        {/* Mobile menu */}
-        <div
-          className={`
-            overflow-hidden
-            text-white
-            transition-all
-            duration-500
-            ease-out
-            lg:hidden
-            ${
-              mobileMenu
-                ? "max-h-[calc(100vh-70px)] border-t border-white/10 pb-6 opacity-100"
-                : "max-h-0 border-transparent pb-0 opacity-0"
-            }
-          `}
-        >
-          <div className="max-h-[calc(100vh-100px)] overflow-y-auto pb-2 pt-4">
-            <MobileDropdown
-              title="Home"
-              items={homeLinks}
-              open={openMobileMenu === "home"}
-              onToggle={() => toggleMobileDropdown("home")}
-              onNavigate={closeMobileMenu}
-            />
+            {/* Desktop menu */}
+            <div className="hidden items-center gap-6 lg:flex xl:gap-8">
+              <Dropdown title="Home" items={homeLinks} />
 
-            <MobileDropdown
-              title="Courses"
-              items={mobileCourseLinks}
-              open={openMobileMenu === "courses"}
-              onToggle={() => toggleMobileDropdown("courses")}
-              onNavigate={closeMobileMenu}
-            />
+              <MegaMenu />
 
-            <MobileDropdown
-              title="Pages"
-              items={pageLinks}
-              open={openMobileMenu === "pages"}
-              onToggle={() => toggleMobileDropdown("pages")}
-              onNavigate={closeMobileMenu}
-            />
+              <Dropdown title="Pages" items={pageLinks} />
 
-            <MobileDropdown
-              title="Blog"
-              items={blogLinks}
-              open={openMobileMenu === "blog"}
-              onToggle={() => toggleMobileDropdown("blog")}
-              onNavigate={closeMobileMenu}
-            />
+              <Dropdown title="Blog" items={blogLinks} />
 
-            <MobileDropdown
-              title="Contact"
-              items={contactLinks}
-              open={openMobileMenu === "contact"}
-              onToggle={() => toggleMobileDropdown("contact")}
-              onNavigate={closeMobileMenu}
-            />
+              <Dropdown title="Contact" items={contactLinks} />
+            </div>
 
-            <div className="mt-5 grid grid-cols-2 gap-3 border-t border-white/10 pt-5">
-              <Link
-                to="/login"
-                onClick={closeMobileMenu}
+            {/* Desktop actions */}
+            <div className="hidden items-center gap-5 lg:flex">
+              <button
+                type="button"
+                onClick={openCart}
+                aria-label="Open shopping cart"
+                aria-expanded={cartOpen}
                 className="
                   flex
+                  h-10
+                  w-10
                   items-center
                   justify-center
                   rounded-full
                   border
                   border-white/20
-                  px-5
-                  py-3
-                  text-sm
-                  font-semibold
+                  bg-white/5
+                  text-base
                   text-white
+                  backdrop-blur-sm
                   transition-all
                   duration-300
+                  hover:-translate-y-0.5
+                  hover:border-cyan-300/60
                   hover:bg-white/10
+                  hover:text-cyan-300
+                "
+              >
+                <FaShoppingCart />
+              </button>
+
+              <Link
+                to="/login"
+                className="
+                  text-sm
+                  font-medium
+                  text-white
+                  transition-colors
+                  duration-300
+                  hover:text-cyan-300
                 "
               >
                 Login
@@ -343,30 +238,323 @@ export default function Navbar() {
 
               <Link
                 to="/register"
-                onClick={closeMobileMenu}
                 className="
-                  flex
+                  inline-flex
                   items-center
                   justify-center
                   rounded-full
                   bg-cyan-500
-                  px-5
-                  py-3
+                  px-6
+                  py-2.5
                   text-sm
                   font-semibold
                   text-white
+                  shadow-[0_10px_30px_rgba(6,182,212,0.22)]
                   transition-all
                   duration-300
+                  hover:-translate-y-0.5
                   hover:bg-cyan-400
+                  hover:shadow-[0_14px_38px_rgba(6,182,212,0.35)]
                 "
               >
                 Register
               </Link>
             </div>
+
+            {/* Mobile actions */}
+            <div className="relative z-20 flex items-center gap-2 lg:hidden">
+              <button
+                type="button"
+                onClick={openCart}
+                aria-label="Open shopping cart"
+                aria-expanded={cartOpen}
+                className="
+                  flex
+                  h-11
+                  w-11
+                  items-center
+                  justify-center
+                  rounded-full
+                  border
+                  border-white/20
+                  bg-white/10
+                  text-base
+                  text-white
+                  backdrop-blur-md
+                  transition-all
+                  duration-300
+                  hover:border-white/35
+                  hover:bg-white/20
+                "
+              >
+                <FaShoppingCart />
+              </button>
+
+              <button
+                type="button"
+                onClick={toggleMobileMenu}
+                aria-label={mobileMenu ? "Close menu" : "Open menu"}
+                aria-expanded={mobileMenu}
+                className="
+                  flex
+                  h-11
+                  w-11
+                  items-center
+                  justify-center
+                  rounded-full
+                  border
+                  border-white/20
+                  bg-white/10
+                  text-xl
+                  text-white
+                  backdrop-blur-md
+                  transition-all
+                  duration-300
+                  hover:border-white/35
+                  hover:bg-white/20
+                "
+              >
+                {mobileMenu ? <FaTimes /> : <FaBars />}
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile menu */}
+          <div
+            className={`
+              overflow-hidden
+              text-white
+              transition-all
+              duration-500
+              ease-out
+              lg:hidden
+              ${
+                mobileMenu
+                  ? "max-h-[calc(100vh-70px)] border-t border-white/10 pb-6 opacity-100"
+                  : "max-h-0 border-transparent pb-0 opacity-0"
+              }
+            `}
+          >
+            <div className="max-h-[calc(100vh-100px)] overflow-y-auto pb-2 pt-4">
+              <MobileDropdown
+                title="Home"
+                items={homeLinks}
+                open={openMobileMenu === "home"}
+                onToggle={() => toggleMobileDropdown("home")}
+                onNavigate={closeMobileMenu}
+              />
+
+              <MobileDropdown
+                title="Courses"
+                items={mobileCourseLinks}
+                open={openMobileMenu === "courses"}
+                onToggle={() => toggleMobileDropdown("courses")}
+                onNavigate={closeMobileMenu}
+              />
+
+              <MobileDropdown
+                title="Pages"
+                items={pageLinks}
+                open={openMobileMenu === "pages"}
+                onToggle={() => toggleMobileDropdown("pages")}
+                onNavigate={closeMobileMenu}
+              />
+
+              <MobileDropdown
+                title="Blog"
+                items={blogLinks}
+                open={openMobileMenu === "blog"}
+                onToggle={() => toggleMobileDropdown("blog")}
+                onNavigate={closeMobileMenu}
+              />
+
+              <MobileDropdown
+                title="Contact"
+                items={contactLinks}
+                open={openMobileMenu === "contact"}
+                onToggle={() => toggleMobileDropdown("contact")}
+                onNavigate={closeMobileMenu}
+              />
+
+              <div className="mt-5 grid grid-cols-2 gap-3 border-t border-white/10 pt-5">
+                <Link
+                  to="/login"
+                  onClick={closeMobileMenu}
+                  className="
+                    flex
+                    items-center
+                    justify-center
+                    rounded-full
+                    border
+                    border-white/20
+                    px-5
+                    py-3
+                    text-sm
+                    font-semibold
+                    text-white
+                    transition-all
+                    duration-300
+                    hover:bg-white/10
+                  "
+                >
+                  Login
+                </Link>
+
+                <Link
+                  to="/register"
+                  onClick={closeMobileMenu}
+                  className="
+                    flex
+                    items-center
+                    justify-center
+                    rounded-full
+                    bg-cyan-500
+                    px-5
+                    py-3
+                    text-sm
+                    font-semibold
+                    text-white
+                    transition-all
+                    duration-300
+                    hover:bg-cyan-400
+                  "
+                >
+                  Register
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* Cart overlay */}
+      <button
+        type="button"
+        onClick={closeCart}
+        aria-label="Close shopping cart"
+        className={`
+          fixed
+          inset-0
+          z-[10000]
+          bg-black/50
+          backdrop-blur-[2px]
+          transition-all
+          duration-500
+          ${
+            cartOpen
+              ? "visible opacity-100"
+              : "invisible pointer-events-none opacity-0"
+          }
+        `}
+      />
+
+      {/* Cart drawer */}
+      <aside
+        role="dialog"
+        aria-modal="true"
+        aria-label="Shopping cart"
+        className={`
+          fixed
+          bottom-0
+          right-0
+          top-0
+          z-[10001]
+          flex
+          w-full
+          max-w-[420px]
+          flex-col
+          bg-white
+          shadow-[-20px_0_60px_rgba(0,0,0,0.2)]
+          transition-transform
+          duration-500
+          ease-[cubic-bezier(0.22,1,0.36,1)]
+          sm:w-[420px]
+          ${cartOpen ? "translate-x-0" : "translate-x-full"}
+        `}
+      >
+        {/* Cart header */}
+        <div className="flex h-[84px] shrink-0 items-center justify-between border-b border-slate-200 px-5 sm:px-7">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0F252A] text-sm text-white">
+              <FaShoppingCart />
+            </div>
+
+            <h2 className="text-xl font-semibold tracking-[-0.03em] text-[#0F252A] sm:text-2xl">
+              Your Cart
+            </h2>
+          </div>
+
+          <button
+            type="button"
+            onClick={closeCart}
+            aria-label="Close cart"
+            className="
+              flex
+              h-10
+              w-10
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-slate-200
+              bg-white
+              text-base
+              text-slate-700
+              transition-all
+              duration-300
+              hover:rotate-90
+              hover:border-[#0F252A]
+              hover:bg-[#0F252A]
+              hover:text-white
+            "
+          >
+            <FaTimes />
+          </button>
+        </div>
+
+        {/* Cart content */}
+        <div className="flex flex-1 items-center justify-center px-6 py-10">
+          <div className="text-center">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 text-2xl text-slate-400">
+              <FaShoppingCart />
+            </div>
+
+            <p className="mt-6 text-lg font-semibold text-[#0F252A]">
+              No items found.
+            </p>
+
+            <p className="mx-auto mt-2 max-w-[260px] text-sm leading-6 text-slate-500">
+              Your shopping cart is currently empty.
+            </p>
+
+            <button
+              type="button"
+              onClick={closeCart}
+              className="
+                mt-7
+                inline-flex
+                items-center
+                justify-center
+                rounded-full
+                bg-[#0F252A]
+                px-6
+                py-3
+                text-sm
+                font-semibold
+                text-white
+                transition-all
+                duration-300
+                hover:-translate-y-0.5
+                hover:bg-cyan-600
+                hover:shadow-[0_12px_30px_rgba(8,145,178,0.25)]
+              "
+            >
+              Continue browsing
+            </button>
+          </div>
+        </div>
+      </aside>
+    </>
   );
 }
 
