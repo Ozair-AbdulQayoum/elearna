@@ -17,7 +17,7 @@ const data = [
     id: "2",
     title: "Course accessibility",
     desc: "Lorem ipsum dolor sit amet consectetur. Lectus faucibus eu lectus malesuada morbi in quam donec a pellentesque risus.",
-    img: img2,
+    img: img3,
   },
   {
     id: "3",
@@ -77,7 +77,7 @@ export default function LearningSection() {
           xl:min-h-[720px]
         "
       >
-        {/* Animated background */}
+        {/* Animated background image */}
         <AnimatePresence mode="sync">
           <motion.div
             key={activeImg}
@@ -109,7 +109,7 @@ export default function LearningSection() {
           />
         </AnimatePresence>
 
-        {/* Main background overlay */}
+        {/* Main dark overlay */}
         <div
           className="
             pointer-events-none
@@ -125,6 +125,7 @@ export default function LearningSection() {
           "
         />
 
+        {/* Cards grid */}
         <div
           className="
             absolute
@@ -148,6 +149,7 @@ export default function LearningSection() {
               onClick={() => setActiveImg(item.img)}
               tabIndex={0}
               role="button"
+              aria-label={`Show ${item.title}`}
               className="
                 group
                 relative
@@ -159,21 +161,35 @@ export default function LearningSection() {
                 border-b
                 border-white/20
                 px-5
-                py-6
+                pb-14
+                pt-6
                 outline-none
                 transition-colors
                 duration-500
+
                 focus-visible:bg-black/25
+                focus-visible:ring-2
+                focus-visible:ring-inset
+                focus-visible:ring-white
+
                 sm:px-7
-                sm:py-7
+                sm:pb-16
+                sm:pt-7
+
                 md:border-b-0
                 md:border-r
                 md:px-5
-                md:py-7
+                md:pb-20
+                md:pt-7
+
                 lg:px-7
-                lg:py-9
+                lg:pb-24
+                lg:pt-9
+
                 xl:px-9
-                xl:py-10
+                xl:pb-28
+                xl:pt-10
+
                 [&:last-child]:border-b-0
                 md:[&:last-child]:border-r-0
               "
@@ -191,6 +207,7 @@ export default function LearningSection() {
                   opacity-100
                   transition-opacity
                   duration-500
+
                   md:bg-gradient-to-t
                   md:from-black/65
                   md:via-black/15
@@ -201,7 +218,7 @@ export default function LearningSection() {
                 "
               />
 
-              {/* Content */}
+              {/* Card content */}
               <div
                 className="
                   relative
@@ -213,14 +230,17 @@ export default function LearningSection() {
                   transition-transform
                   duration-700
                   ease-[cubic-bezier(0.22,1,0.36,1)]
+
                   sm:gap-7
+
                   md:block
                   md:max-w-none
-                  md:translate-y-[108px]
+                  md:translate-y-[72px]
                   md:group-hover:translate-y-0
                   md:group-focus-visible:translate-y-0
-                  lg:translate-y-[120px]
-                  xl:translate-y-[128px]
+
+                  lg:translate-y-[78px]
+                  xl:translate-y-[84px]
                 "
               >
                 <motion.span
@@ -232,6 +252,7 @@ export default function LearningSection() {
                     font-bold
                     leading-none
                     text-white
+
                     sm:text-4xl
                     md:text-4xl
                     lg:text-5xl
@@ -249,6 +270,7 @@ export default function LearningSection() {
                       font-semibold
                       leading-snug
                       text-white
+
                       sm:text-xl
                       md:text-lg
                       lg:text-xl
@@ -265,12 +287,14 @@ export default function LearningSection() {
                       text-xs
                       leading-5
                       text-white/75
+
                       sm:mt-3
                       sm:text-sm
                       sm:leading-6
+
                       md:mt-4
                       md:max-h-0
-                      md:translate-y-4
+                      md:translate-y-3
                       md:overflow-hidden
                       md:text-sm
                       md:leading-6
@@ -278,14 +302,18 @@ export default function LearningSection() {
                       md:transition-all
                       md:duration-500
                       md:ease-out
+
                       md:group-hover:max-h-40
                       md:group-hover:translate-y-0
                       md:group-hover:opacity-100
+
                       md:group-focus-visible:max-h-40
                       md:group-focus-visible:translate-y-0
                       md:group-focus-visible:opacity-100
+
                       lg:text-[15px]
                       lg:leading-7
+
                       xl:text-base
                       xl:leading-8
                     "
@@ -307,8 +335,10 @@ export default function LearningSection() {
                   transition-all
                   duration-500
                   ease-out
+
                   group-hover:w-full
                   group-focus-visible:w-full
+
                   md:h-1
                 "
               />
