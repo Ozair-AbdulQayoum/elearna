@@ -17,7 +17,7 @@ const data = [
     id: "2",
     title: "Course accessibility",
     desc: "Lorem ipsum dolor sit amet consectetur. Lectus faucibus eu lectus malesuada morbi in quam donec a pellentesque risus.",
-    img: img3,
+    img: img2,
   },
   {
     id: "3",
